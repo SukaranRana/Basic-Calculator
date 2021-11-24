@@ -16,6 +16,8 @@ body {
 }
 .parent{width:100vw}
 .calculator {
+  width: 375px;
+  height: 540px;
   margin: auto;
   height: 65vh;
   overflow: hidden;
