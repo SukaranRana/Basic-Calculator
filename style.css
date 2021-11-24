@@ -14,7 +14,7 @@ html {
 body {
   background-color: #1f4590;
 }
-
+.parent{width:100vw}
 .calculator {
   margin: auto;
   height: 65vh;
