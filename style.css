@@ -18,8 +18,7 @@ body {
 .calculator {
   width: 375px;
   height: 540px;
-  margin: auto;
-  height: 65vh;
+  margin: 8rem auto;
   overflow: hidden;
   background-color: #002939;
   position: relative;
