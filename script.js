@@ -21,21 +21,14 @@ const nine = document.querySelector(".nine");
 
 const section2 = document.querySelector(".section-2");
 
-// const prevCalc = document.querySelector(".prev-calc");
-// const prevAns = document.querySelector(".prev-ans");
 const currCalc = document.querySelector(".curr-calc");
 const currAns = document.querySelector(".curr-ans");
 
 let arrayOfCalc = [];
-// let prevArrayOfCalc = [];
-
-// let equalsPressed = false;
 
 //Functions
 const clearDisplay = function () {
   arrayOfCalc = [];
-  // prevCalc.textContent = "";
-  // prevAns.textContent = "";
   currCalc.textContent = "";
   currAns.textContent = "";
 };
@@ -47,37 +40,15 @@ const backspaceFunction = function () {
 
 const displayOnCalc = function (e) {
   if (e.target?.classList.contains("math")) {
-    arrayOfCalc.push(e.target.textContent);
-
+    if (e.target.textContent === "%") {
+      arrayOfCalc.push("*");
+      arrayOfCalc.push("0.01");
+    } else {
+      arrayOfCalc.push(e.target.textContent);
+    }
     currCalc.textContent = arrayOfCalc.join("");
   }
 };
-
-// const updatingCurrPrev = function (e) {
-//   document.addEventListener("keydown", function (e) {
-//     if (
-//       e.key === "1" ||
-//       e.key === "2" ||
-//       e.key === "3" ||
-//       e.key === "4" ||
-//       e.key === "5" ||
-//       e.key === "6" ||
-//       e.key === "7" ||
-//       e.key === "8" ||
-//       e.key === "9" ||
-//       e.key === "0" ||
-//       e.key === "."
-//     ) {
-//       arrayOfCalc.pop();
-//       prevAns.textContent = currAns.textContent;
-//       prevCalc.textContent = arrayOfCalc.join("");
-//       currAns.textContent = "";
-//       currCalc.textContent = "";
-//       arrayOfCalc = [];
-//       arrayOfCalc.push(e.key);
-//     }
-//   });
-// };
 
 const equalsFunc = function (e) {
   currAns.textContent =
@@ -85,28 +56,6 @@ const equalsFunc = function (e) {
     eval(arrayOfCalc.join("")) < Number.MIN_SAFE_INTEGER / 100000
       ? "ERROR"
       : eval(arrayOfCalc.join(""));
-  // updatingCurrPrev(e);
-  // document.removeEventListener("keypress", (e) => updatingCurrPrev(e));
-  // if (
-  //   e.key === "1" ||
-  //   e.key === "2" ||
-  //   e.key === "3" ||
-  //   e.key === "4" ||
-  //   e.key === "5" ||
-  //   e.key === "6" ||
-  //   e.key === "7" ||
-  //   e.key === "8" ||
-  //   e.key === "9" ||
-  //   e.key === "0" ||
-  //   e.key === "." ||
-  //   e.target.classList.contains("num")
-  // ) {
-  //   prevAns.textContent = currAns.textContent;
-  //   prevCalc.textContent = currCalc.textContent;
-  //   currAns.textContent = "";
-  //   currCalc.textContent = "";
-  //   arrayOfCalc = [];
-  // }
 };
 
 //Event Listener
@@ -120,7 +69,11 @@ section2.addEventListener("click", displayOnCalc);
 backspace.addEventListener("click", backspaceFunction);
 
 //<--4. Equals Functionality-->
-equals.addEventListener("click", (e) => equalsFunc(e));
+equals.addEventListener("click", (e) => {
+  console.log(arrayOfCalc);
+  equalsFunc(e);
+  // document.querySelector("svg").style.display = "flex";
+});
 
 //<--Keyboard listener-->
 document.addEventListener("keydown", function (e) {
@@ -140,13 +93,16 @@ document.addEventListener("keydown", function (e) {
     e.key === "+" ||
     e.key === "-" ||
     e.key === "*" ||
-    e.key === "/" ||
-    e.key === "%"
+    e.key === "/"
   ) {
     arrayOfCalc.push(e.key);
     currCalc.textContent = arrayOfCalc.join("");
   } else if (e.key === "Enter") equalsFunc(e);
   else if (e.key === "a") clearDisplay();
+  else if (e.key === "%") {
+    arrayOfCalc.push("*");
+    arrayOfCalc.push("0.01");
+  }
 });
 
 //Light Mode
@@ -162,6 +118,7 @@ document.querySelector(".light").addEventListener("click", function () {
   document.querySelector(".backspace").style.color = "red";
   document.querySelector(".all-clear").style.color = "#eea620";
   currCalc.style.color = "black";
+  document.querySelector(".clock").style.color = "black";
 });
 //Dark mode
 document.querySelector(".dark").addEventListener("click", function () {
@@ -176,6 +133,7 @@ document.querySelector(".dark").addEventListener("click", function () {
   document.querySelector(".backspace").style.color = "red";
   document.querySelector(".all-clear").style.color = "#eea620";
   currCalc.style.color = "white";
+  document.querySelector(".clock").style.color = "beige";
 });
 //Default Mode
 document.querySelector(".default").addEventListener("click", function () {
@@ -192,8 +150,19 @@ document.querySelector(".default").addEventListener("click", function () {
   document.querySelector(".backspace").style.color = "red";
   document.querySelector(".all-clear").style.color = "#eea620";
   currCalc.style.color = "black";
+  document.querySelector(".clock").style.color = "beige";
 });
+
+//clock
+setInterval(function () {
+  const now = new Date();
+  const hour = String(now.getHours()).padStart(2, 0);
+  const minutes = String(now.getMinutes()).padStart(2, 0);
+  const seconds = String(now.getSeconds()).padStart(2, 0);
+  document.querySelector(
+    ".clock"
+  ).textContent = `${hour}:${minutes}:${seconds}`;
+}, 1000);
+
 //Initialization
 clearDisplay();
-prevCalc.textContent = "";
-prevAns.textContent = "";
